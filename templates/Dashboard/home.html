@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block content %} {% load humanize %}
+
+    <div class="container mt-4">
+
+        {% if request.user.is_superuser %}
+        <h2 class="mt-4">Selamat Datang di SIP WILL BOSS-e LKPM</h2>
+        {% else %}
+        <h2 class="mt-4">Selamat Datang di SIP WILL BOSS-e LKPM, {{user.first_name}}</h2>
+        {% endif %}
+      
+        <table class="table table-bordered">
+          {% if request.user.is_superuser %}
+          <p class="lead">Data terakhir yang telah dimasukan oleh seluruh Kecamatan  </p>
+          {% else %}  
+          <p class="lead">Data terakhir yang dimasukan di Kecamatan {{user.first_name}} </p>
+          {% endif %}
+          <thead>
+              <tr>
+                <th>No</th>
+                <th>NIB</th>
+                <th>Nama Pelaku Usaha</th>
+                <th>Modal Kerja</th>
+                <th>Kapasitas</th>
+                <th>Produksi</th>
+                <th>No Telp</th>
+                {% if request.user.is_superuser %}
+                  <th>Kecamatan</th>
+                {% endif %}
+              </tr>
+            </thead>
+            <tbody>
+                {% for i in data_usaha %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.nib}}</td>
+                    <td>{{i.nama_pelaku_usaha}}</td>
+                    <td>{{i.modal_kerja}}</td>
+                    <td>{{i.kapasitas}}</td>
+                    <td>{{i.produksi}}</td>
+                    <td>{{i.no_telp}}</td>
+                    {% if request.user.is_superuser %}
+                    <td>{{i.kecamatan}}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+            <br />
+          </table>
+    </div>
+{% endblock %}

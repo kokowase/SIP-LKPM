@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br/>
+<div class="container">
+
+    <form method="POST">
+        {% csrf_token %}
+        <h4>Masukan data secara lengkap</h4><hr/>
+            <p><div class="row"><div class="col-md-3">Nomer NIB: </div><div class="col-md-3">{{form.nib}}</div></div></p>
+    
+            <p><div class="row"><div class="col-md-3">Modal Kerja: </div><div class="col-md-3">{{form.modal_kerja}}</div></div></p>
+            <p><div class="row"><div class="col-md-3"><span style="margin-right: 80px;">Tenaga Kerja:</span>Laki-laki : </br> <span style="margin-left: 172px;"> Perempuan: </span> </div><div class="col-md-3">{{form.laki_laki}} {{form.perempuan}}</div></div></p>
+            <p><div class="row"><div class="col-md-3">Produksi: </div><div class="col-md-3">{{form.produksi}}</div></div></p>
+
+            <!-- Ini Bisa Kita pakae Input Type Hidden Jika mau membuat app langsung untuk masing-masing divisi -->
+
+            <p><div class="row"><div class="col-md-3">Kapasitas: </div><div class="col-md-3">{{form.kapasitas}}</div></div></p>
+            <p><div class="row"><div class="col-md-3">Nama Pelaku Usaha: </div><div class="col-md-3">{{form.nama_pelaku_usaha}}</div></div></p>
+
+
+            <p><div class="row"><div class="col-md-3">No Telp: </div><div class="col-md-3">{{form.no_telp}} </div></div></p>
+            <input type="hidden" name="kecamatan" value="{{user.first_name}}">
+            <hr/>
+            <div class="col-md-2"><button type="submit" class="btn btn-info">Submit</button>
+             
+            </div>
+    </form>
+</div>
+
+{% endblock %}

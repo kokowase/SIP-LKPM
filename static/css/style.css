@@ -1,0 +1,21 @@
+.txt:hover {
+    text-decoration: underline;
+}
+
+.active {
+  text-decoration: underline;
+}
+
+.nav-link {
+  color: black;
+}
+
+.box {
+    margin-bottom: 10px;
+    float: right;
+  }
+
+.box .btn {
+
+    margin-left: auto;
+  }
