@@ -71,27 +71,44 @@ def RekapData(request):
     else:
         data = PelakuUsaha.objects.filter(kecamatan=request.user.first_name)
     
-    form = SearchDataForm()
+    queryset = data
+    nib_filter = request.GET.get('nib')
+    kec_filter = request.GET.get('kecamatan')
+    if nib_filter and kec_filter:
+        queryset = queryset.filter(nib=nib_filter, kecamatan=kec_filter)
+    elif nib_filter:
+            queryset = queryset.filter(nib=nib_filter)
+    elif kec_filter:
+            queryset = queryset.filter(kecamatan=kec_filter)
+
+    paginator = Paginator(queryset,25)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # form = SearchDataForm()
     
-    selected_nib = None
-    if request.method == 'POST':
-        form = SearchDataForm(request.POST or None)
-        form2 = PickDateForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            nib = cd.get('nib')
-            kecamatan = cd.get('kecamatan')
-            selected_nib = nib
-            if request.user.is_superuser:
+    # selected_nib = None
+    # if request.method == 'POST':
+    #     form = SearchDataForm(request.POST or None)
+    #     form2 = PickDateForm(request.POST)
+    #     if form.is_valid():
+    #         cd = form.cleaned_data
+    #         nib = cd.get('nib')
+    #         kecamatan = cd.get('kecamatan')
+    #         selected_nib = nib
+    #         if request.user.is_superuser:
                
-                if nib and kecamatan:
-                    data = data.filter(nib=nib, kecamatan=kecamatan)
-                elif nib:
-                    data = data.filter(nib=nib)
-                elif kecamatan:
-                    data = data.filter(kecamatan=kecamatan)
-            else:
-                data = data.filter(nib=nib)
+    #             if nib and kecamatan:
+    #                 data = data.filter(nib=nib, kecamatan=kecamatan)
+    #             elif nib:
+    #                 data = data.filter(nib=nib)
+    #             elif kecamatan:
+    #                 data = data.filter(kecamatan=kecamatan)
+    #         else:
+    #             data = data.filter(nib=nib)
+    form2 = PickDateForm()
+    if request.method == 'POST':
+        form2 = PickDateForm(request.POST)
         if form2.is_valid():
             start_date = form2.cleaned_data['start_date']
             end_date = form2.cleaned_data['end_date']
@@ -102,17 +119,17 @@ def RekapData(request):
                 data = data.filter(tanggal_input__range=[start_date, end_date])
             download = export_to_excel(start_date,end_date)   
             return download 
-    data2 = data.order_by('-nib')
+    # data2 = data.order_by('-nib')
     
-    paginator = Paginator(data2,25)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    # paginator = Paginator(data2,25)
+    # page_number = request.GET.get('page')
+    # page_obj = paginator.get_page(page_number)
     
     pilih_nib = PelakuUsaha.objects.values_list('nib', flat=True).distinct()
     pilih_kec = None
     if request.user.is_superuser:
-        pilih_kec = PelakuUsaha.objects.values_list('kecamatan',flat=True).distinct
-    form2 = PickDateForm()
+        pilih_kec = PelakuUsaha.objects.values_list('kecamatan',flat=True).distinct()
+    # form2 = PickDateForm()
     # if request.method == 'POST':
         
     #     if form2.is_valid():
@@ -127,10 +144,9 @@ def RekapData(request):
     
     context = {
         'data':page_obj,
-        'form':form,
         'form2':form2,
         'pilih_nib':pilih_nib,
-        'selected_nib':selected_nib,
+        # 'selected_nib':selected_nib,
         'pilih_kec':pilih_kec
 
     }

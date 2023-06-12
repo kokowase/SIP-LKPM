@@ -6,52 +6,53 @@
 
 </br>
 <div class="container mt-2">
-<form method="POST">
-  <div class="form-group">
-  {% csrf_token %}
-  <label for="nib" class="form-label">Search NIB</label> 
-  <select class="form-control select2class" name="nib" >
-  <option value="">Pilih NIB</option>
-  {% for i in pilih_nib %}
-      <option value="{{i}}" >{{i}}</option>
-   
-  {% endfor %}
-</select>
+  <form method="GET">
+    <div class="form-group">
+      <label for="nib" class="form-label">Search NIB</label> 
+      <select class="form-control select2class" name="nib" >
+        <option value="">Pilih NIB</option>
+        {% for i in pilih_nib %}
+          <option value="{{i}}" >{{i}}</option>
+        {% endfor %}
+      </select>
 
-</div>
-{% if user.is_superuser %}
-  <div class="form-group">
-    <label for="kecamatan" class="form-label">Search Kecamatan</label>
-  <select class="form-control select2class" name="kecamatan" id="kecamatan">
-    <option value="">Pilih Kecamatan</option>
-    {% for i in pilih_kec %}
-    <option>{{i}}</option>
-    {% endfor %}
-  </select>
+    </div>
+  {% if user.is_superuser %}
+    <div class="form-group">
+      <label for="kecamatan" class="form-label">Search Kecamatan</label>
+    <select class="form-control select2class" name="kecamatan" id="kecamatan">
+      <option value="">Pilih Kecamatan</option>
+      {% for i in pilih_kec %}
+      <option>{{i}}</option>
+      {% endfor %}
+    </select>
+    </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+  </form>
+  <div class="box">
+  <form method="post" >
+    {% csrf_token %}
+    <div style=" align-items:  center;">
+    <label for="id_start_date">Pilih tanggal dari </label>
+    {{form2.start_date}}
+    <label for="id_end_date">Ke</label>
+    {{form2.end_date}} <br/>
+    <div style="float: right; margin-top: 5px;">
+    <button class="btn btn-primary"  type="submit">Download</button>
+    </div>
   </div>
+  </form>
+  </div>
+  </br>
+
+  {% if user.is_superuser %}
+    <h5 class="">Laporan Kegiatan Penanaman Modal Seluruh Kecamatan</h5> 
+  {% else %} 
+    <h5 class="">Laporan Kegiatan Penanaman Modal Kecamatan {{user.first_name}}</h5>
   {% endif %}
-  <button type="submit" class="btn btn-primary mt-2">Submit</button>
-</form>
-<div class="box">
-<form method="post" >
-  {% csrf_token %}
-  <div style=" align-items:  center;">
-  <label for="id_start_date">Pilih tanggal dari </label>
-  {{form2.start_date}}
-  <label for="id_end_date">Ke</label>
-  {{form2.end_date}} <br/>
-  <div style="float: right; margin-top: 5px;">
-  <button class="btn btn-primary"  type="submit">Download</button>
-  </div>
-</div>
-</form>
-</div>
-</br>
-
-
-<h5 class="">Laporan Kegiatan Penanaman Modal Kecamatan {{user.first_name}}</h5>  
-<table class="table table-bordered mt-4">
-    <thead>
+  <table class="table table-bordered mt-4">
+    <thead style="text-align: center;">
       <tr>
       <th>No</th>
       <th>NIB</th>
@@ -63,6 +64,7 @@
       <th>Nama Pelaku Usaha</th>
       <th>No Telp</th>
       <th>Tanggal</th>
+      <th>Permasalahan</th>
       {% if request.user.is_superuser %}
       <th>Kecamatan</th>
     {% endif %}
@@ -71,7 +73,7 @@
     </thead>
     <tbody>  
     {% for i in data %}
-    <tr>
+    <tr style="text-align: center;">
       <td>{{forloop.counter}}</td>
       <td>{{i.nib}}</td>
       <td>{{i.laki_laki}}</></td>
@@ -82,6 +84,7 @@
       <td>{{i.nama_pelaku_usaha}}</td>
       <td>{{i.no_telp}}</td>
       <td>{{i.tanggal_input}}</td>
+      <td style="max-width: 250px; word-wrap: break-word;">{{i.permasalahan}}</td>
       {% if request.user.is_superuser %}
       <td>{{i.kecamatan}}</td>
       {% endif %}
@@ -90,7 +93,7 @@
     </tbody>
   </table>
 
-<div class='pagination'>
+  <div class='pagination'>
     <ul class="pagination">
       {% if data.has_previous %}
         <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">Previous</a></li>

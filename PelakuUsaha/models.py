@@ -13,3 +13,4 @@ class PelakuUsaha(models.Model):
     kapasitas = models.CharField(max_length=20, null=True)
     nama_pelaku_usaha = models.CharField(max_length=100,null=True)
     no_telp = models.CharField(max_length=100)
+    permasalahan = models.CharField(max_length=250,null=True)
