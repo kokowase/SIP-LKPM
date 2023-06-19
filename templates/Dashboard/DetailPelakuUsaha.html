@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+{% block content %}
+
+<div class="container mt-4">
+    <h5>Detail Pelaku Usaha :</h5>
+
+    <form method="POST">
+
+        <hr/>
+        <p>
+          <div class="row">
+            <div class="col-md-3">Nomer NIB:</div>
+            <div class="col-md-3"><input type="text" name="nib" class="form-control" value="{{ data.nib }}"></div>
+          </div>
+        </p>
+      
+        <p>
+          <div class="row">
+            <div class="col-md-3">Modal Kerja:</div>
+            <div class="col-md-3"><input type="text" name="modal_kerja" class="form-control" value="Rp. {{ data.modal_kerja|intcomma }}"></div>
+          </div>
+        </p>
+        <!-- <p><div class="row"><div class="col-md-3"><span style="margin-right: 80px;">Tenaga Kerja:</span>Laki-laki : </br> <span style="margin-left: 172px;"> Perempuan: </span> </div><div class="col-md-3">{{form.laki_laki}} {{form.perempuan}}</div></div></p> -->
+        <p>
+            <div class="row">
+                <div class="col-md-3">
+                  <span style="margin-right: 50px;">Tenaga Kerja:</span>
+                </div>
+                <div class="col-md-3" style="margin-right:20px;">
+                  Laki-Laki:
+                  <input type="text" name="laki_laki" class="form-control" value="{{ data.laki_laki }}">
+                </div>
+                <div class="col-md-3">
+                  Perempuan:
+                  <input type="text" name="perempuan" class="form-control" value="{{ data.perempuan }}">
+                </div>
+              </div>
+              
+              
+              <!-- <div class="row">
+                <div class="col-md-3">Laki-laki:</div>
+                <div class="col-md-3"><input type="text" name="laki_laki" class="form-control" value="{{ form.laki_laki.value }}"></div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">Perempuan:</div>
+                <div class="col-md-3"><input type="text" name="perempuan" class="form-control" value="{{ form.perempuan.value }}"></div>
+              </div> -->
+        </p>
+        
+        <p>
+          <div class="row">
+            <div class="col-md-3">Produksi:</div>
+            <div class="col-md-3"><input type="text" name="produksi" class="form-control" value="{{ data.produksi }}"></div>
+          </div>
+        </p>
+      
+        <p>
+          <div class="row">
+            <div class="col-md-3">Kapasitas:</div>
+            <div class="col-md-3"><input type="text" name="kapasitas" class="form-control" value="{{ data.kapasitas }}"></div>
+          </div>
+        </p>
+        
+        <p>
+          <div class="row">
+            <div class="col-md-3">Nama Pelaku Usaha:</div>
+            <div class="col-md-3"><input type="text" name="nama_pelaku_usaha" class="form-control" value="{{ data.nama_pelaku_usaha }}"></div>
+          </div>
+        </p>
+      
+        <p>
+          <div class="row">
+            <div class="col-md-3">No Telp:</div>
+            <div class="col-md-3"><input type="text" name="no_telp" class="form-control" value="{{ data.no_telp }}"></div>
+          </div>
+        </p>
+
+        <p>
+            <div class="row">
+              <div class="col-md-3">Kecamatan</div>
+              <div class="col-md-3"><input type="text" name="kec" class="form-control" value="{{ data.kecamatan }}"></div>
+            </div>
+          </p>
+        
+        <p>
+          <div class="row">
+            <div class="col-md-3">Permasalahan:</div>
+            <div class="col-md-3">
+            <textarea name="permasalahan" value="{{ data.permasalahan }}" class="form-control" rows="5" cols="40" width: 100%;">{{data.permasalahan}}</textarea>
+            </div>
+        </div>
+        </p>
+      
+        
+        <hr/>
+
+      </form>
+      
+
+
+</div>
+
+
+
+{% endblock %}

@@ -43,6 +43,8 @@
     </div>
   </div>
   </form>
+
+  
   </div>
   </br>
 
@@ -51,40 +53,46 @@
   {% else %} 
     <h5 class="">Laporan Kegiatan Penanaman Modal Kecamatan {{user.first_name}}</h5>
   {% endif %}
-  <table class="table table-bordered mt-4">
+  <table id="tpelaku" class="table table-bordered mt-4" style="text-align: center; ">
+    
     <thead style="text-align: center;">
       <tr>
-      <th>No</th>
-      <th>NIB</th>
-      <th>Tk Laki-laki</th>
-      <th>Tk Perempuan</th>
-      <th>Modal Kerja</th>
-      <th>Produksi</th>
-      <th>Kapasitas</th>
-      <th>Nama Pelaku Usaha</th>
-      <th>No Telp</th>
-      <th>Tanggal</th>
-      <th>Permasalahan</th>
+      <th style="width: 20px;" rowspan='2'>No</th>
+      <th style="width: 30px;" rowspan='2'>NIB</th>
+      <th colspan='2' class="text-center">Tenaga Kerja</th>
+      <th style="width: 170px;" rowspan='2'>Modal Kerja</th>
+      <th style="width: 100px;"rowspan='2'>Produksi</th>
+      <th style="width: 100px;" rowspan='2'>Kapasitas</th>
+      <th style="width: 160px;" rowspan='2'>Nama </th>
+      <th style="width: 100px;" rowspan='2'>Tanggal</th>
+      <!-- <th rowspan='2'>No Telp</th>
+      <th rowspan='2'>Tanggal</th>
+      <th rowspan='2'>Permasalahan</th> -->
       {% if request.user.is_superuser %}
-      <th>Kecamatan</th>
+      <th rowspan='2'>Kecamatan</th>
     {% endif %}
       
+      </tr>
+      <tr>
+          <th  style="width: 100px;">Laki-Laki</th>
+          <th style="width: 100px;">Perempuan</th>
       </tr>
     </thead>
     <tbody>  
     {% for i in data %}
     <tr style="text-align: center;">
       <td>{{forloop.counter}}</td>
-      <td>{{i.nib}}</td>
+      <td><a href={% url 'detailpelakuusaha' i.nib %} target="_blank">{{i.nib}}</a></td>
       <td>{{i.laki_laki}}</></td>
       <td>{{i.perempuan}}</td>
       <td>Rp. {{i.modal_kerja|floatformat:2|intcomma}}</td>
       <td>{{i.produksi}}</td>
       <td>{{i.kapasitas}}</td>
       <td>{{i.nama_pelaku_usaha}}</td>
-      <td>{{i.no_telp}}</td>
+      <td>{{i.tanggal_input|date:"d-m-Y"}}</td>
+      <!-- <td>{{i.no_telp}}</td>
       <td>{{i.tanggal_input}}</td>
-      <td style="max-width: 250px; word-wrap: break-word;">{{i.permasalahan}}</td>
+      <td style="max-width: 250px; word-wrap: break-word;">{{i.permasalahan}}</td> -->
       {% if request.user.is_superuser %}
       <td>{{i.kecamatan}}</td>
       {% endif %}

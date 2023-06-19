@@ -20,6 +20,13 @@
               <div class="card-body p-5 text-center">
                 <img src="/img/logo.png" width="180" height="180">
                 <h3 class="mb-5">Laporan Kegiatan Penanaman Modal</h3>
+                {% if messages %}
+                  <div id="alert-message" class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                      {{ message }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
                 <form method="POST">
                   {% csrf_token %}
                   <div class="form-outline mb-4">
@@ -43,6 +50,13 @@
       </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+      setTimeout(function(){
+        var alertMessage = document.getElementById('alert-message');
+        if (alertMessage) {
+          alertMessage.style.display = 'none';
+        }
+      },5000);
+    </script>
   </body>
 </html>

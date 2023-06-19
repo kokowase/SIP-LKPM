@@ -16,16 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Dashboard.views import home,login, RekapData, export_to_excel
-from PelakuUsaha.views import LaporanUsaha
+from Dashboard.views import home,login, RekapData, export_to_excel, signout, DetailPelakuUsaha
+from PelakuUsaha.views import LaporanUsaha, generate_pdf, TandaTerima
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',login, name='login'),
-    path('home',home, name='home'),
+    path('login/',login, name='login'),
+    path('logout',signout, name='logout'),
+    path('',home, name='home'),
     path('buatlaporan', LaporanUsaha,name='laporanusaha'),
     path('rekapdata', RekapData,name='rekapdata'),
-    path('download',export_to_excel,name='download')
+    path('detailpelakuusaha/<nib>', DetailPelakuUsaha,name='detailpelakuusaha'),
+    path('tandaterima/<nib>',TandaTerima,name='tandaterima' ),
+    path('download',export_to_excel,name='download'),
+    path('generate_pdf/<nib>',generate_pdf,name='generate_pdf')
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

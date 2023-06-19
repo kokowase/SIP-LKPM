@@ -3,7 +3,11 @@ from django.contrib import messages, auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.conf import settings
 from PelakuUsaha.models import PelakuUsaha
+from django.template.loader import get_template
+from django_downloadview import ObjectDownloadView 
+from django.contrib.auth.decorators import login_required
 from .forms import SearchDataForm, PickDateForm
 from django.core.paginator import Paginator
 import pandas as pd
@@ -11,7 +15,7 @@ import pandas as pd
 
 
 # Create your views here.
-
+@login_required(login_url='login')
 def home(request):
     if request.user.is_superuser:
         Data_usaha = PelakuUsaha.objects.order_by('-id')[:5]
@@ -42,6 +46,10 @@ def login(request):
     else:
         return render(request, 'Dashboard/login.html')
     
+def signout(request):
+    auth.logout(request)
+    return redirect('login')
+    
 def export_to_excel(start_date, end_date):
 
     # datausaha = PelakuUsaha.objects.all()
@@ -64,6 +72,7 @@ def export_to_excel(start_date, end_date):
 
     return response
 
+@login_required(login_url='login')
 def RekapData(request):
 
     if request.user.is_superuser:
@@ -125,7 +134,7 @@ def RekapData(request):
     # page_number = request.GET.get('page')
     # page_obj = paginator.get_page(page_number)
     
-    pilih_nib = PelakuUsaha.objects.values_list('nib', flat=True).distinct()
+    pilih_nib = data.values_list('nib', flat=True).distinct()
     pilih_kec = None
     if request.user.is_superuser:
         pilih_kec = PelakuUsaha.objects.values_list('kecamatan',flat=True).distinct()
@@ -151,5 +160,13 @@ def RekapData(request):
 
     }
     return render(request, 'Dashboard/RekapData.html', context)
+
+@login_required(login_url='login')
+def DetailPelakuUsaha(request,nib):
+    data = PelakuUsaha.objects.get(nib=nib)
+    context = {
+        'data':data
+    }
+    return render(request, 'Dashboard/DetailPelakuUsaha.html', context)
 
 
